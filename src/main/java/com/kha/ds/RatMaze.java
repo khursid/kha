@@ -26,7 +26,7 @@ public class RatMaze{
     }
 
     public static boolean isSafe(int[][] maze, int n, int x, int y, boolean[][] visited){
-        return (x>=0 && y>=0 && x<n && y<n && maze[x][y]==1);
+        return (x>=0 && y>=0 && x<n && y<n && maze[x][y]==1 && !visited[x][y]);
     }
 
     public static ArrayList<String> printPath(int[][] m, int n){
@@ -40,15 +40,17 @@ public class RatMaze{
             return res;
         }
         visited[x][y]=true;
+        //if(isSafe(maze, n, x, y, visited)) {
         for(Integer i : map.keySet()){
             int newX = x + X[i];
             int newY = y + Y[i];
-            if(isSafe(maze, n, newX, newY, visited) && !visited[newX][newY]) {
+            if(isSafe(maze, n, newX, newY, visited)) {
                 sb.append(map.get(i));
                 doPrintPath(maze, n, newX, newY, visited, sb, res);
                 sb.deleteCharAt(sb.length()-1);
             }
         }
+        visited[x][y]=false;
 
         return res;
     }
