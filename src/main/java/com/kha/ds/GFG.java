@@ -7,7 +7,7 @@ public class GFG {
 
 
 
-    private static void swap(int[] heap, int n1, int n2){
+    public static void swap(int[] heap, int n1, int n2){
         int temp = heap[n1];
         heap[n1] = heap[n2];
         heap[n2] = temp;
