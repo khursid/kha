@@ -5,9 +5,9 @@ package main.java.com.kha.javamodifier;
  */
    public class AccessModifier {
 
-    public AccessModifier(){
+    /*public AccessModifier(){
 
-    }
+    }*/
 
     protected void doSomeThing1(){
     }
