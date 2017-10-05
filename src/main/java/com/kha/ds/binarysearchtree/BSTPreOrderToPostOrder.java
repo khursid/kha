@@ -7,24 +7,41 @@ import java.util.Scanner;
  */
 public class BSTPreOrderToPostOrder {
 
-    static int  resSize = 0;
-    static int[] res;
     static int[] arr;
 
     public static void printPostOrder(int[] arr1, int n){
-        resSize=0;
-        res = new int[n];
         arr=arr1;
-        boolean found = printPostOrder(0, n-1);
-        if(found){
-            for(int i : res){
-                System.out.print(i+" ");
-            }
+        if(validPreOrder(0, n-1)){
+            printPostOrder(0, n-1);
         }else {
             System.out.print("NO");
         }
         System.out.println();
+    }
 
+    public static boolean validPreOrder(int x, int y){
+        if(y<x){
+            return true;
+        }
+        if(y==x){
+            return true;
+        }
+        if(y==x+1){
+            return true;
+        }
+        int rightIndex=0;
+        boolean rightIndexFound = false;
+        for(int i=x+1;i<=y;i++){
+            if(arr[x] < arr[i] && !rightIndexFound){
+                rightIndexFound = true;
+                rightIndex=i;
+            }else if(arr[x] > arr[i] && rightIndexFound){
+                return false;
+            }
+        }
+        boolean preOrderExistLeft = printPostOrder(x+1, rightIndex-1);
+        boolean preOrderExistRight =printPostOrder(rightIndex, y);
+        return preOrderExistLeft & preOrderExistRight;
     }
 
     public static boolean printPostOrder(int x, int y){
@@ -32,31 +49,35 @@ public class BSTPreOrderToPostOrder {
             return true;
         }
         if(y==x){
-            res[resSize++] = arr[x];
+            System.out.print(arr[x]+" ");
             return true;
         }
         if(y==x+1){
-            res[resSize++] = arr[y];
-            res[resSize++] = arr[x];
+            System.out.print(arr[y]+" ");
+            System.out.print(arr[x]+" ");
            return true;
         }
-        int root = arr[x];
         int rightIndex=0;
         boolean rightIndexFound = false;
         for(int i=x+1;i<=y;i++){
-            if(root < arr[i] && !rightIndexFound){
+            if(arr[x] < arr[i] && !rightIndexFound){
                 rightIndexFound = true;
                 rightIndex=i;
-            }else if(root > arr[i] && rightIndexFound){
+            }else if(arr[x] > arr[i] && rightIndexFound){
                 return false;
             }
         }
 
-        boolean preOrderExistLeft = printPostOrder(x+1, rightIndex-1);
+        if(rightIndexFound && x+1==rightIndex){
+            printPostOrder(rightIndex, y);
+        }else if (rightIndexFound){
+
+        }
+
 
         boolean preOrderExistRight =printPostOrder(rightIndex, y);
-        res[resSize++] = root;
-        return preOrderExistLeft & preOrderExistRight;
+        System.out.print(arr[x]+" ");
+        return true;
     }
 
     public static void main(String[] args) {
